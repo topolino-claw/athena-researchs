@@ -4,16 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NAV and Bitcoin Treasury Companies — Athena Research</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #0d1117;
-            --surface: #161b22;
-            --border: #30363d;
-            --text: #c9d1d9;
-            --text-muted: #8b949e;
-            --accent: #58a6ff;
-            --gold: #d4a574;
-            --code-bg: #1f2428;
+            --bg-deep: #0c0a1d;
+            --bg-base: #110f24;
+            --bg-surface: #1a1730;
+            --bg-elevated: #231f42;
+            --border: rgba(139, 92, 246, 0.15);
+            --text: #e2e0f0;
+            --text-secondary: #a8a3c4;
+            --text-muted: #6b6490;
+            --accent-primary: #a78bfa;
+            --accent-secondary: #c4b5fd;
+            --accent-glow: rgba(167, 139, 250, 0.15);
+            --highlight: #fbbf24;
+            --code-bg: #1a1730;
+            --gradient-primary: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
         }
 
         * {
@@ -22,18 +31,49 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-            background: var(--bg);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-deep);
             color: var(--text);
             line-height: 1.7;
             font-size: 16px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(124, 58, 237, 0.12), transparent),
+                radial-gradient(ellipse 60% 40% at 100% 0%, rgba(167, 139, 250, 0.06), transparent);
+            pointer-events: none;
+            z-index: 0;
         }
 
         .container {
-            max-width: 850px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 2rem 1.5rem 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation */
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
         }
 
         .back-link {
@@ -43,158 +83,320 @@
             color: var(--text-muted);
             text-decoration: none;
             font-size: 0.9rem;
-            margin-bottom: 2rem;
-            transition: color 0.2s;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s;
         }
 
         .back-link:hover {
-            color: var(--accent);
+            color: var(--accent-primary);
+            background: var(--accent-glow);
         }
 
-        .meta {
-            color: var(--text-muted);
+        .back-link svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             font-size: 0.9rem;
-            margin-bottom: 2rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid var(--border);
+            color: var(--text-muted);
         }
 
+        .nav-brand span {
+            font-size: 1.25rem;
+        }
+
+        /* Article Header */
+        .article-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .article-date {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .article-type {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--highlight);
+            background: rgba(251, 191, 36, 0.1);
+            padding: 0.3rem 0.75rem;
+            border-radius: 4px;
+        }
+
+        /* Content Styles */
         #content {
             color: var(--text);
         }
 
         #content h1 {
-            font-size: 2.2rem;
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 2.5rem;
+            font-weight: 600;
             color: #fff;
-            margin-bottom: 0.5rem;
-            line-height: 1.3;
+            margin-bottom: 1.5rem;
+            line-height: 1.25;
+            letter-spacing: -0.02em;
         }
 
         #content h2 {
-            font-size: 1.5rem;
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 1.6rem;
+            font-weight: 600;
             color: #fff;
-            margin-top: 3rem;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
+            margin-top: 3.5rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
             border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+
+        #content h2::before {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--gradient-primary);
         }
 
         #content h3 {
-            font-size: 1.2rem;
-            color: #fff;
-            margin-top: 2rem;
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-top: 2.5rem;
             margin-bottom: 0.75rem;
         }
 
         #content h4 {
             font-size: 1rem;
-            color: var(--gold);
-            margin-top: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            margin-top: 2rem;
             margin-bottom: 0.5rem;
         }
 
         #content p {
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
+            color: var(--text-secondary);
         }
 
         #content a {
-            color: var(--accent);
+            color: var(--accent-primary);
             text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
         }
 
         #content a:hover {
-            text-decoration: underline;
+            border-bottom-color: var(--accent-primary);
+        }
+
+        #content strong {
+            color: var(--text);
+            font-weight: 600;
         }
 
         #content ul, #content ol {
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
             padding-left: 1.5rem;
+            color: var(--text-secondary);
         }
 
         #content li {
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        #content li::marker {
+            color: var(--accent-primary);
         }
 
         #content blockquote {
-            border-left: 3px solid var(--gold);
-            padding-left: 1rem;
-            margin: 1.5rem 0;
-            color: var(--text-muted);
+            border-left: 3px solid var(--accent-primary);
+            background: var(--bg-surface);
+            padding: 1.25rem 1.5rem;
+            margin: 1.75rem 0;
+            border-radius: 0 8px 8px 0;
+            color: var(--text-secondary);
             font-style: italic;
+        }
+
+        #content blockquote p:last-child {
+            margin-bottom: 0;
         }
 
         #content code {
             background: var(--code-bg);
-            padding: 0.2rem 0.4rem;
+            border: 1px solid var(--border);
+            padding: 0.2rem 0.45rem;
             border-radius: 4px;
-            font-family: 'SF Mono', Consolas, monospace;
-            font-size: 0.9em;
+            font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+            font-size: 0.875em;
+            color: var(--accent-secondary);
         }
 
         #content pre {
-            background: var(--code-bg);
-            padding: 1rem;
-            border-radius: 8px;
-            overflow-x: auto;
-            margin: 1.5rem 0;
+            background: var(--bg-surface);
             border: 1px solid var(--border);
+            padding: 1.25rem 1.5rem;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 1.75rem 0;
         }
 
         #content pre code {
             background: none;
+            border: none;
             padding: 0;
+            color: var(--text);
         }
 
+        /* Tables */
         #content table {
             width: 100%;
             border-collapse: collapse;
-            margin: 1.5rem 0;
+            margin: 1.75rem 0;
             font-size: 0.9rem;
+            background: var(--bg-surface);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
         }
 
-        #content th, #content td {
-            border: 1px solid var(--border);
-            padding: 0.75rem;
-            text-align: left;
+        #content thead {
+            background: var(--bg-elevated);
         }
 
         #content th {
-            background: var(--surface);
-            color: #fff;
+            text-align: left;
+            padding: 1rem 1.25rem;
             font-weight: 600;
+            color: var(--text);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            border-bottom: 1px solid var(--border);
         }
 
-        #content tr:nth-child(even) {
-            background: rgba(22, 27, 34, 0.5);
+        #content td {
+            padding: 0.875rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
         }
 
-        #content strong {
-            color: #fff;
+        #content tr:last-child td {
+            border-bottom: none;
         }
 
-        #content hr {
-            border: none;
+        #content tbody tr:hover {
+            background: var(--bg-elevated);
+        }
+
+        /* Callout boxes */
+        .callout {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            margin: 1.75rem 0;
+        }
+
+        .callout-warning {
+            border-left: 3px solid var(--highlight);
+        }
+
+        .callout-info {
+            border-left: 3px solid var(--accent-primary);
+        }
+
+        /* Tags in article */
+        .article-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 3rem;
+            padding-top: 2rem;
             border-top: 1px solid var(--border);
-            margin: 2rem 0;
         }
 
-        .loading {
+        .article-tag {
+            background: var(--accent-glow);
+            color: var(--accent-primary);
+            padding: 0.4rem 0.9rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
             text-align: center;
-            padding: 4rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .footer-brand span {
+            font-size: 1.15rem;
+        }
+
+        .footer-tagline {
+            font-size: 0.8rem;
             color: var(--text-muted);
         }
 
-        @media (max-width: 600px) {
+        /* Responsive */
+        @media (max-width: 640px) {
             .container {
-                padding: 1.5rem 1rem;
+                padding: 1.5rem 1rem 3rem;
+            }
+
+            .nav {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
             }
 
             #content h1 {
-                font-size: 1.75rem;
+                font-size: 1.85rem;
             }
 
             #content h2 {
-                font-size: 1.3rem;
+                font-size: 1.35rem;
             }
 
             #content table {
@@ -202,30 +404,187 @@
             }
 
             #content th, #content td {
-                padding: 0.5rem;
+                padding: 0.65rem 0.85rem;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <a href="../" class="back-link">← Back to Research Archive</a>
-        
-        <div id="content">
-            <div class="loading">Loading research...</div>
-        </div>
-    </div>
+        <nav class="nav">
+            <a href="../index.html" class="back-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Back to Archive
+            </a>
+            <div class="nav-brand">
+                <span>🦉</span>
+                Athena Research
+            </div>
+        </nav>
 
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script>
-        fetch('RESEARCH_NAV_Bitcoin_Treasury.md')
-            .then(response => response.text())
-            .then(markdown => {
-                document.getElementById('content').innerHTML = marked.parse(markdown);
-            })
-            .catch(err => {
-                document.getElementById('content').innerHTML = '<p>Error loading research. <a href="RESEARCH_NAV_Bitcoin_Treasury.md">View raw file</a></p>';
-            });
-    </script>
+        <article>
+            <header class="article-header">
+                <div class="article-meta">
+                    <span class="article-date">February 27, 2026</span>
+                    <span class="article-type">Comprehensive Analysis</span>
+                </div>
+            </header>
+
+            <div id="content">
+                <h1>NAV and Bitcoin Treasury Companies</h1>
+                
+                <p>A deep-dive into companies holding Bitcoin as a treasury asset, the mechanics of Net Asset Value (NAV) calculations, and the emerging frameworks for valuing these hybrid equity-Bitcoin vehicles.</p>
+
+                <h2>Executive Summary</h2>
+                <p>Bitcoin treasury companies represent a new asset class sitting at the intersection of traditional equities and cryptocurrency exposure. This analysis examines how these companies are valued, the financial engineering techniques they employ, and the reflexive dynamics that can drive premium or discount to NAV.</p>
+
+                <h2>What is NAV?</h2>
+                <p>Net Asset Value (NAV) is the per-share value of a company's Bitcoin holdings (and other assets) minus liabilities. For a pure Bitcoin treasury company:</p>
+
+                <blockquote>
+                    <p>NAV = (Bitcoin Holdings × BTC Price − Liabilities) ÷ Shares Outstanding</p>
+                </blockquote>
+
+                <p>The <strong>mNAV multiple</strong> represents how many times NAV the market is willing to pay for shares. An mNAV of 2.0× means investors pay $2 for every $1 of underlying Bitcoin exposure.</p>
+
+                <h2>Premium vs Discount Dynamics</h2>
+                
+                <h3>Why Companies Trade at Premium</h3>
+                <ul>
+                    <li><strong>Access mechanism</strong> — Institutional investors who cannot hold BTC directly</li>
+                    <li><strong>Leverage potential</strong> — Company can use debt to acquire more BTC</li>
+                    <li><strong>Operational optionality</strong> — Mining operations, services, other revenue</li>
+                    <li><strong>Tax efficiency</strong> — Deferred gains vs direct BTC holding</li>
+                    <li><strong>Management alpha</strong> — Expectation of smart capital allocation</li>
+                </ul>
+
+                <h3>Why Companies Trade at Discount</h3>
+                <ul>
+                    <li><strong>Dilution concerns</strong> — History of ATM offerings</li>
+                    <li><strong>Management fees</strong> — Ongoing operational drag</li>
+                    <li><strong>Execution risk</strong> — Bad timing on BTC purchases</li>
+                    <li><strong>Regulatory overhang</strong> — Unclear tax or securities treatment</li>
+                </ul>
+
+                <h2>Financial Engineering Toolkit</h2>
+
+                <h3>At-the-Market (ATM) Offerings</h3>
+                <p>ATMs allow companies to sell shares directly into the market at prevailing prices. When trading above NAV, each ATM share sold is accretive — the company receives more capital than the BTC value it's diluting.</p>
+
+                <h4>Accretive ATM Example</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Before</th>
+                            <th>After ATM</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>BTC Holdings</td>
+                            <td>10,000 BTC</td>
+                            <td>11,500 BTC</td>
+                        </tr>
+                        <tr>
+                            <td>Shares Outstanding</td>
+                            <td>100M</td>
+                            <td>110M</td>
+                        </tr>
+                        <tr>
+                            <td>NAV/share (at $60k BTC)</td>
+                            <td>$6.00</td>
+                            <td>$6.27</td>
+                        </tr>
+                        <tr>
+                            <td>Accretion</td>
+                            <td>—</td>
+                            <td>+4.5%</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Convertible Debt</h3>
+                <p>Convertible notes provide low-cost capital with delayed dilution. If BTC rises significantly, conversion occurs at prices well above issuance NAV, making the financing highly accretive in retrospect.</p>
+
+                <h3>Preferred Equity</h3>
+                <p>Perpetual preferred shares offer fixed dividends without mandatory conversion, providing permanent capital without common share dilution.</p>
+
+                <h2>The Reflexivity Trap</h2>
+                <p>George Soros's reflexivity concept applies powerfully here. A rising BTC price increases NAV, which can expand the mNAV multiple, which enables more accretive ATM issuance, which funds more BTC purchases, which can push BTC price higher — a self-reinforcing loop.</p>
+
+                <p>The reverse is equally powerful: falling BTC compresses multiples, eliminates accretive issuance, may force debt servicing from BTC sales, accelerating the decline.</p>
+
+                <h2>Key Players</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Company</th>
+                            <th>BTC Holdings</th>
+                            <th>Strategy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Strategy (MSTR)</td>
+                            <td>~478,000</td>
+                            <td>Pure treasury, aggressive leverage</td>
+                        </tr>
+                        <tr>
+                            <td>Marathon (MARA)</td>
+                            <td>~44,000</td>
+                            <td>Mining + treasury hybrid</td>
+                        </tr>
+                        <tr>
+                            <td>Metaplanet</td>
+                            <td>~2,000</td>
+                            <td>Asia-focused treasury play</td>
+                        </tr>
+                        <tr>
+                            <td>Semler Scientific</td>
+                            <td>~1,800</td>
+                            <td>Healthcare + treasury</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Evaluation Framework</h2>
+                <p>When analyzing Bitcoin treasury companies, consider:</p>
+                <ol>
+                    <li><strong>Current mNAV</strong> — What premium are you paying?</li>
+                    <li><strong>Dilution trajectory</strong> — ATM authorization vs. usage rate</li>
+                    <li><strong>Debt structure</strong> — Maturity schedule, conversion prices</li>
+                    <li><strong>Management incentives</strong> — Comp structure, insider holdings</li>
+                    <li><strong>Operating business</strong> — Cash flow positive or drain?</li>
+                    <li><strong>BTC yield history</strong> — Track record of accretive execution</li>
+                </ol>
+
+                <h2>Conclusion</h2>
+                <p>Bitcoin treasury companies offer leveraged BTC exposure with unique risk/reward profiles. Understanding NAV mechanics, the reflexivity dynamics, and management's financial engineering capabilities is essential for informed positioning.</p>
+
+                <p>The key insight: <strong>you're not just buying Bitcoin exposure — you're buying a capital allocation machine that can create or destroy value based on execution timing and market conditions.</strong></p>
+
+                <div class="article-tags">
+                    <span class="article-tag">Bitcoin</span>
+                    <span class="article-tag">Finance</span>
+                    <span class="article-tag">Corporate Strategy</span>
+                    <span class="article-tag">Valuation</span>
+                </div>
+            </div>
+        </article>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span>🦉</span>
+                    Athena Research
+                </div>
+                <p class="footer-tagline">Intelligence through evidence</p>
+            </div>
+        </footer>
+    </div>
 </body>
 </html>
